@@ -1,0 +1,329 @@
+" Copy or symlink this file to ~/.vimrc
+
+set nocompatible               " be iMproved
+filetype off                   " required!
+
+set tags=tags                     " ctags
+
+syntax on                         " Turn on syntax highlighting.
+filetype plugin indent on         " Turn on file type detection.
+
+runtime macros/matchit.vim        " Load the matchit plugin.
+
+set showcmd                       " Display incomplete commands.
+set showmode                      " Display the mode you're in.
+
+set backspace=indent,eol,start    " Intuitive backspacing.
+set cursorline
+
+set hidden                        " Handle multiple buffers better.
+
+set wildmenu                      " Enhanced command line completion.
+set wildmode=list:longest         " Complete files like a shell.
+
+set ignorecase                    " Case-insensitive searching.
+set smartcase                     " But case-sensitive if expression contains a capital letter.
+
+set number                        " Show line numbers.
+set ruler                         " Show cursor position.
+
+set incsearch                     " Highlight matches as you type.
+set hlsearch                      " Highlight matches.
+
+set wrap                          " Turn on line wrapping.
+set scrolloff=3                   " Show 3 lines of context around the cursor.
+
+set title                         " Set the terminal's title
+
+set visualbell                    " No beeping.
+
+set nobackup                      " Don't make a backup before overwriting a file.
+set nowritebackup                 " And again.
+set directory=/var/tmp            " Keep swap files in one location
+
+" UNCOMMENT TO USE
+set tabstop=2                    " Global tab width.
+set shiftwidth=2                 " And again, related.
+set expandtab                    " Use spaces instead of tabs
+
+set laststatus=2                  " Show the status line all the time
+" Useful status information at bottom of screen
+" set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_enable_elixir_checker = 1
+let g:syntastic_elixir_checkers = ['elixir']
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:jsx_ext_required = 0
+let g:jsx_pragma_required = 1
+
+set foldmethod=syntax
+set foldlevelstart=99
+set foldlevel=99
+au BufRead,BufNewFile *.scss set filetype=scss
+au BufRead,BufNewFile *.ejs set filetype=html
+
+hi CursorLineNR cterm=bold
+
+" "Theme
+colorscheme ir_black
+"railscasts
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" DEFAULT BEHAVIORS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" PLUGINS CONFIGURATIONS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" git gutter plugin
+let g:gitgutter_enabled = 1
+
+" zencoding plugin
+let g:user_zen_settings = {
+      \  'php' : {
+      \    'extends' : 'html',
+      \    'filters' : 'c',
+      \  },
+      \  'xml' : {
+      \    'extends' : 'html',
+      \  },
+      \  'erb' : {
+      \    'extends' : 'html',
+      \  },
+      \  'haml' : {
+      \    'extends' : 'html',
+      \  },
+      \}
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CtrlP
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_custom_ignore = 'tmp$\|logs\|vendor/assets\|vendor/bundle\|vendor/plugins\|spec/vcr\|public/uploads\|public/themes/cloud\|spec/cassett\|\.git\|cassett\|/.git\|coverage\|.DS_STORE\|node_modules\|expo'
+let g:ctrlp_map = '<c-p>'
+
+" Vim-to-github
+map <leader>tg <ESC>:ToGithub<CR>
+
+" Nerdtree
+map <C-n> :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM SHORTCUTS & KEY BINDINGS
+"
+" For tests & specs custom functions and key bindings, look at the respective
+" section below
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+set timeoutlen=200
+let mapleader = ","
+
+" save by pressing ,s instead of :w
+map <Leader>s <ESC>:w<CR>
+map <Leader>be :BufExplorer<CR>
+
+" copy by pressing ctrl+c
+vnoremap <C-c> "*y
+
+nnoremap <leader>1 :set foldlevel=1<cr>
+nnoremap <leader>2 :set foldlevel=2<cr>
+nnoremap <leader>3 :set foldlevel=3<cr>
+nnoremap <leader>4 :set foldlevel=4<cr>
+nnoremap <leader>9 :set foldlevel=9<cr>
+
+" Tab mappings.
+map <leader>tt :tabnew<cr>
+map <leader>te :tabedit
+map <leader>tc :tabclose<cr>
+map <leader>to :tabonly<cr>
+map <leader>tn :tabnext<cr>
+map <leader>tp :tabprevious<cr>
+map <leader>tf :tabfirst<cr>
+map <leader>tl :tablast<cr>
+map <leader>tm :tabmove
+
+" Enter clears search highlight
+nmap <CR> :nohlsearch<CR>
+
+" When pasting in visual mode, doesn't replace current register
+" vnoremap p "_dP
+" I haven't found how to hide this function (yet)
+function! RestoreRegister()
+  let @" = s:restore_reg
+  return ''
+endfunction
+
+function! s:Repl()
+  let s:restore_reg = @"
+  return "p@=RestoreRegister()\<cr>"
+endfunction
+
+" this supports "rp that replaces the selection by the contents of @r
+vnoremap <silent> <expr> p <sid>Repl()
+
+
+" Goes to the end of the line (pressing shift+4 is annoying)
+nmap 44 $
+vmap 44 $h
+
+function! SearchCurrentPath()
+  let l:word = expand("<cword>")
+  call feedkeys(":CtrlP\<CR>".l:word, "t")
+endfunction
+nnoremap <leader>g :call SearchCurrentPath()<cr>
+
+" Tab becomes Esc
+" inoremap <Tab> <Esc>
+
+" Updates CTags
+map <F5> :exec "!ctags -R --exclude=.git --exclude=vendor/bundle"<CR>
+
+nmap <leader>b :so $MYVIMRC<CR>
+
+" Resizing windows
+nnoremap <C-h> :vertical resize +5<cr>
+nnoremap <C-l> :vertical resize -5<cr>
+nnoremap <C-k> :resize +5<cr>
+nnoremap <C-j> :resize -5<cr>
+
+inoremap  <Up>     <NOP>
+inoremap  <Down>   <NOP>
+inoremap  <Left>   <NOP>
+inoremap  <Right>  <NOP>
+noremap   <Up>     <NOP>
+noremap   <Down>   <NOP>
+noremap   <Left>   <NOP>
+noremap   <Right>  <NOP>
+
+" When you've writen : (colon), press %% very fast and it'll write the current
+" file's directory
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+" RUBY & RAILS
+" Keeps current file in on side, and its test file in the other
+" (depends on Rails.vim)
+map <leader>A :on<CR>\|:vsplit<CR>\|<c-w>l\|:A<CR>
+
+" adds <%= %> in the current line
+inoremap <leader>p <%=  %><ESC>==lllli
+nnoremap <leader>p <%=  %><ESC>==lllli
+
+" :A is from rails.vim plugin
+nnoremap <Leader>a :A<CR>
+
+" deletes the remaining chars from a string
+nnoremap <Leader>ds vf"hd
+
+" CTRLP
+map <leader>ga :CtrlPClearCache<cr>\|:CtrlP app/assets<cr>
+map <leader>gv :CtrlPClearCache<cr>\|:CtrlP app/views<cr>
+map <leader>gc :CtrlPClearCache<cr>\|:CtrlP app/controllers<cr>
+map <leader>gm :CtrlPClearCache<cr>\|:CtrlP app/models<cr>
+map <leader>gl :CtrlPClearCache<cr>\|:CtrlP lib<cr>
+map <leader>gs :CtrlPClearCache<cr>\|:CtrlP spec<cr>
+map <leader>gu :CtrlPClearCache<cr>\|:CtrlP spec/unit<cr>
+map <leader>f :CtrlPClearCache<cr>\|:CtrlP<cr>
+map <leader>f :CtrlPClearCache<cr>\|:CtrlP<cr>
+map <leader>F :CtrlPClearCache<cr>\|:CtrlP %%<cr>
+
+" Dash
+map <leader>d :Dash<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM COMMANDS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! SetCtrlPPathTheSameAsVim()
+  let g:ctrlp_working_path_mode=''
+endfunction
+
+" When you go to another project inside of a Rails project (e.g Ember project
+" in app/assets/javascript/my_project), CtrlP still uses ./ as root. By typing
+" this command, CtrlP will :cd into this internal project.
+command! CtrlPVimPath call SetCtrlPPathTheSameAsVim()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" CUSTOM FUNCTIONS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Rename current file
+function! RenameFile()
+  let old_name = expand('%')
+  let old_directory = $PWD . "/" . fnamemodify(expand(old_name), ':h')
+  let new_name = input('Renaming file. New file name: ', expand('%'), 'file')
+  let new_directory = fnamemodify(expand(new_name), ':h')
+
+  if new_name != '' && new_name != old_name
+    exec ':silent !mkdir -p ' . new_directory
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    exec ':silent !find ' . old_directory . ' -type d -empty -exec rmdir {} +'
+    redraw!
+  endif
+endfunction
+
+" Copy current file to a new location
+function! CopyFile()
+  let old_name = expand('%')
+  let new_name = input('Copying file. New file name: ', expand('%'), 'file')
+  let new_directory = fnamemodify(expand(new_name), ':h')
+
+  if new_name != '' && new_name != old_name
+    exec ':silent !mkdir -p ' . new_directory
+    exec ':saveas ' . new_name
+    redraw!
+  endif
+endfunction
+
+map <leader>n :call RenameFile()<cr>
+map <leader>c :call CopyFile()<cr>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TESTS & SPECS FUNCTIONS
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap <cr> <ESC>:w<ESC>\|:TestNearest<cr>
+map <leader>t :TestNearest<cr>
+map <leader>r :RuboCop<cr>
+map <leader>bt <ESC>:w<CR>\|:!bundle exec rspec --color --no-drb %<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ENVIRONMENT CONFIGURATIONS
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" taken from http://vim.wikia.com/wiki/Highlight_unwanted_spaces
+highlight RedundantSpaces ctermbg=red guibg=red
+match RedundantSpaces /\s\+$/
+autocmd BufWinEnter * match RedundantSpaces /\s\+$/
+autocmd InsertEnter * match RedundantSpaces /\s\+\%#\@<!$/
+autocmd InsertLeave * match RedundantSpaces /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" MULTIPURPOSE TAB KEY
+" Indent if we're at the beginning of a line. Else, do completion.
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! InsertTabWrapper()
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] !~ '\k'
+    return "\<tab>"
+  else
+    return "\<c-p>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+"highlight ColorColumn ctermbg=7
+set colorcolumn=80
+
+call vundle#end()

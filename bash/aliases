@@ -1,0 +1,93 @@
+ update_bash(){
+	ln -nfs ~/.dotfiles/git/gitconfig ~/.gitconfig
+	ln -nfs ~/.dotfiles/git/githelpers ~/.githelpers
+	ln -nfs ~/.dotfiles/vim/vimrc ~/.vimrc
+	ln -nfs ~/.dotfiles/vim/vimrc.bundles ~/.vimrc.bundles
+	ln -nfs ~/.dotfiles/tmux/tmux.conf ~/.tmux.conf
+	ln -nfs ~/.dotfiles/pry/pryrc ~/.pryrc
+
+  if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+  else
+    source ~/.bash_profile
+  fi
+}
+
+alias killRuby='sudo kill -9 $(lsof -i:3000 -t)'
+
+if [ -f ~/.bashrc ]; then
+  alias ubp='echo "Updating ~/.bashrc..." && source ~/.bashrc && update_bash'
+else
+  alias ubp='echo "Updating ~/.bash_profile..." && source ~/.bash_profile && update_bash'
+fi
+
+alias integration='sh bin/integration'
+
+eval "$(thefuck --alias)"
+
+# Git
+alias master='git checkout master'
+alias gs='git status'
+alias ga='git add . && git add . -u && git status'
+alias gb='git branch'
+alias gd='git diff'
+alias gdm='git diff master'
+alias gl="git log --pretty=format:'%C(yellow)%h %C(blue)<<%an>> %C(black)%ad%C(yellow)%d%Creset %s %Creset' --date=short --abbrev-commit | sed -e 's/<<\([A-Za-z]\).* \([A-Za-z]\).*>>/<\1\2>/' | sed ''/Merge/s//`printf "\033[31mMerge\033[0m"`/'' | sed ''/Revert/s//`printf "\033[31mRevert\033[0m"`/'' | less -rX"
+
+# Commit pending changes and quote all args as message
+function gc(){ echo "Do you mean gco?"; }
+function gco(){ git commit -v -m "$*"; }
+function gch(){ git checkout $*; }
+
+# rmr = Rebase Master Rebase
+function rmr(){
+  # Defines the current git branch
+  export CURRENT_BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\\\\\\1\\/`
+
+  echo Checking out master, rebasing and returning to $CURRENT_BRANCH...
+  git checkout master
+  git pull --rebase origin master
+  git checkout $CURRENT_BRANCH
+  git rebase master
+}
+
+# React
+alias ns='npm start'
+alias nr='npm run'
+alias nrs='npm run stylus'
+alias ni='npm install'
+
+function be(){ time bundle exec $*; }
+
+function migrate() {
+  be rake db:migrate
+  be rake db:migrate RAILS_ENV=test
+}
+
+function resetdb() {
+  be rake db:drop
+  be rake db:create
+  be rake db:migrate
+  be rake db:seed
+  be rake db:drop RAILS_ENV=test
+  be rake db:create RAILS_ENV=test
+  be rake db:migrate RAILS_ENV=test
+  be rake db:seed RAILS_ENV=test
+}
+
+
+# System
+alias ls='ls -G'
+alias ll='ls -la'
+
+function be(){ time bundle exec $*; }
+
+function migrate() {
+  be rake db:migrate
+  be rake db:migrate RAILS_ENV=test
+}
+
+function rollback() {
+  be rake db:rollback
+  be rake db:rollback RAILS_ENV=test
+}

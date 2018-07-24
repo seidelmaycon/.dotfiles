@@ -23,6 +23,7 @@ Plugin 'vim-airline/vim-airline-themes' " Themes for Vim-Airline
 Plugin 'kylef/apiblueprint.vim' " API Blueprint highlight
 Plugin 'mileszs/ack.vim' " Ack.vim
 Plugin 'elixir-lang/vim-elixir' "Elixir support for vim
+Plugin 'kurko/autocoder.vim' "auto-creating class and unit specs
  " Plugin 'inside/vim-search-pulse' " Vim Search Pulse
 Plugin 'aliou/sql-heredoc.vim' " Syntax highlighting for SQL heredocs
 Plugin 'pangloss/vim-javascript' " syntax highlighting and improved indentation
@@ -31,3 +32,5 @@ Plugin 'scrooloose/nerdcommenter' " NERD commenter
 Plugin 'slim-template/vim-slim' "slim syntax highlighting for vim.
 " Plugin 'w0rp/ale' " Asynchronous Lint Engine
 Plugin 'joshdick/onedark.vim' " Atom colorschema
+Plugin 'sheerun/vim-polyglot'
+Plugin 'jpo/vim-railscasts-theme'

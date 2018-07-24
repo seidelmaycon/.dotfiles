@@ -74,8 +74,8 @@ function resetdb() {
 }
 
 # System
-alias ls='ls -G'
-alias ll='ls -la'
+alias ls='ls -G --color=auto'
+alias ll='ls -la --color=auto'
 
 function be(){ time bundle exec $*; }
 

@@ -16,7 +16,8 @@ set number
 set ruler
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
-colorscheme onedark
+colorscheme railscasts
+
 set history=200
 set undolevels=200
 set timeoutlen=400
@@ -47,11 +48,11 @@ let &showbreak='↪ '
 highlight ColorColumn ctermbg=160 guibg=#d70000
 set colorcolumn=80
 
-augroup CursorLine
-  au!
-  au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-  au WinLeave * setlocal nocursorline
-augroup END
+" augroup CursorLine
+"   au!
+"   au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
+"   au WinLeave * setlocal nocursorline
+" augroup END
 
 " Default mappings
 map <leader>s <ESC>:w<CR>
@@ -69,6 +70,7 @@ noremap <Del> <NOP>
 noremap Q <NOP>
 map <leader>bp <ESC>Obinding.pry<ESC>,s,n
 map <leader>us <ESC>:Eunittest<CR>
+nnoremap <F4> :%s/<c-r><c-w>/<c-r><c-w>/gc<c-f>$F/i
 
 " CtrlP
 let g:ctrlp_map = '<c-p>'
@@ -140,9 +142,6 @@ if executable('ag')
 endif
 
 set backspace=2 " make backspace work like most other programs
-
-autocmd BufEnter nginx.conf* if &filetype == "" | setlocal ft=nginx | endif
-au FileType xml setlocal equalprg=xmllint\ --format\ --recover\ -\ 2>/dev/null " idents xml files with xmllink (needs libxml2-utils)
 
 set statusline+=%{fugitive#statusline()}
 

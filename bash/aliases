@@ -95,3 +95,10 @@ function rollback() {
   be rake db:rollback
   be rake db:rollback RAILS_ENV=test
 }
+
+# Run rubocop on files that diffs master
+function runr(){
+  export CURRENT_BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\\\\\\1\\/`
+  rubocop -a $(git diff --diff-filter=AMR --name-only master $CURRENT_BRANCH)
+}
+

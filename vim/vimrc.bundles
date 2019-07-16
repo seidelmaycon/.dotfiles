@@ -1,20 +1,21 @@
 Plugin 'vim-ruby/vim-ruby.git' " Ruby config for vim
 Plugin 'tpope/vim-rails.git' " Rails toolbox for vim
-" Plugin 'tpope/vim-rake.git' " Vim-rails for pure ruby scripts
-" Plugin 'tpope/vim-endwise.git' " End structures automatically on ruby
+Plugin 'tpope/vim-rake.git' " Vim-rails for pure ruby scripts
+Plugin 'tpope/vim-endwise.git' " End structures automatically on ruby
 Plugin 'vim-scripts/taglist.vim' " CTags
+Plugin 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plugin 'airblade/vim-gitgutter' " Shows a git diff
 Plugin 'ctrlpvim/ctrlp.vim.git' " File navigation
 Plugin 'tpope/vim-fugitive.git' " Git wrapper
 Plugin 'tpope/vim-unimpaired' " Pairs of handy bracket mappings
-" Plugin 'sjl/gundo.vim.git' " Undo tree
+Plugin 'sjl/gundo.vim.git' " Undo tree
 Plugin 'ervandew/supertab.git' " Completion
 Plugin 'tpope/vim-surround.git' " Quotes substitution
 Plugin 'vim-syntastic/syntastic.git' " Syntax checking
-Plugin 'thoughtbot/vim-rspec' " Vim Rspec runner
 Plugin 'scrooloose/nerdtree' " NERD tree
 Plugin 'tpope/vim-bundler' " Lightweight support for Ruby's Bundler
 Plugin 'ngmy/vim-rubocop' " RuboCop
+Plugin 'jpo/vim-railscasts-theme' " Railcasts Theme
 Plugin 'keith/rspec.vim' " Rspec better highlight
 Plugin 'vim-scripts/matchit.zip' " Vim Matchit
 Plugin 'vim-scripts/ruby-matchit.git' " Ruby Matchit
@@ -22,15 +23,21 @@ Plugin 'vim-airline/vim-airline' " Lean & mean status/tabline
 Plugin 'vim-airline/vim-airline-themes' " Themes for Vim-Airline
 Plugin 'kylef/apiblueprint.vim' " API Blueprint highlight
 Plugin 'mileszs/ack.vim' " Ack.vim
+Plugin 'nginx.vim' " Nginx syntax
+Plugin 'ekalinin/Dockerfile.vim' " Dockerfile syntax
 Plugin 'elixir-lang/vim-elixir' "Elixir support for vim
-Plugin 'kurko/autocoder.vim' "auto-creating class and unit specs
- " Plugin 'inside/vim-search-pulse' " Vim Search Pulse
+Plugin 'kurko/autocoder.vim' " Ruby classes and unit spec generators
+Plugin 'inside/vim-search-pulse' " Vim Search Pulse
 Plugin 'aliou/sql-heredoc.vim' " Syntax highlighting for SQL heredocs
 Plugin 'pangloss/vim-javascript' " syntax highlighting and improved indentation
 Plugin 'mxw/vim-jsx' "Syntax highlighting and indenting for JSX
 Plugin 'scrooloose/nerdcommenter' " NERD commenter
 Plugin 'slim-template/vim-slim' "slim syntax highlighting for vim.
-" Plugin 'w0rp/ale' " Asynchronous Lint Engine
-Plugin 'joshdick/onedark.vim' " Atom colorschema
-Plugin 'sheerun/vim-polyglot'
-Plugin 'jpo/vim-railscasts-theme'
+Plugin 'w0rp/ale' " Asynchronous Lint Engine
+Plugin 'MattesGroeger/vim-bookmarks' " Vim Bookmarks upgrade
+Plugin 'martinda/Jenkinsfile-vim-syntax' " Vim Jenkins Syntax Highlight
+Plugin 'craigemery/vim-autotag' " Ctags autotag
+Plugin 'janko-m/vim-test' " A Vim wrapper for running tests on different granularities.
+Plugin 'jparise/vim-graphql' " GraphQL file detection, syntax highlighting, and indentation.
+Plugin 'junegunn/fzf.vim'
+

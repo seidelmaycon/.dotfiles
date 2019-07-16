@@ -7,6 +7,7 @@ update_bash(){
     source ~/.bash_profile
   fi
 }
+test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
 
 alias killRuby='sudo kill -9 $(lsof -i:3000 -t)'
 
@@ -17,6 +18,7 @@ else
 fi
 
 eval "$(thefuck --alias)"
+export PATH="$PATH:`pwd`/flutter/bin"
 
 # Git
 alias master='git checkout master'
@@ -42,6 +44,30 @@ function rmr(){
   git pull --rebase origin master
   git checkout $CURRENT_BRANCH
   git rebase master
+}
+
+# mm = Merge Master
+function mm(){
+  # Defines the current git branch
+  export CURRENT_BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\\\\\\1\\/`
+
+  echo Checking out master, rebasing and returning to $CURRENT_BRANCH...
+  git checkout master
+  git pull
+  git checkout $CURRENT_BRANCH
+  git merge master
+}
+
+# msd = Merge on staging and deploy
+function msd(){
+  # Defines the current git branch
+  export CURRENT_BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\\\\\\1\\/`
+
+  echo Checking out master, rebasing and returning to $CURRENT_BRANCH...
+  git checkout staging
+  git pull
+  git merge $CURRENT_BRANCH
+  cap staging deploy BRANCH=staging
 }
 
 # React
@@ -76,8 +102,8 @@ function parallel() {
 }
 
 # System
-alias ls='ls -G --color=auto'
-alias ll='ls -la --color=auto'
+alias ls='ls -G'
+alias ll='ls -la'
 
 function be(){ time bundle exec $*; }
 
@@ -97,3 +123,15 @@ function runr(){
   rubocop -a $(git diff --diff-filter=AMR --name-only master $CURRENT_BRANCH)
 }
 
+function runrfit(){
+  export CURRENT_BRANCH=`git branch 2> /dev/null | grep -e ^* | sed -E  s/^\\\\\*\ \(.+\)$/\\\\\\1\\/`
+  rubocop -a $(git diff --diff-filter=AMR --name-only fitnesstrainer $CURRENT_BRANCH)
+}
+
+function fd(){
+  git diff --diff-filter=AMR --name-only master $CURRENT_BRANCH
+}
+
+function clean_branches() {
+  git branch | grep -v "master" | xargs git branch -D
+}
